@@ -1,6 +1,5 @@
 FROM ubuntu:18.04
-MAINTAINER zq
-ENV TZ=Asia/Shanghai
+#MAINTAINER zq 
 ENV DEBIAN_FRONTEND=noninteractive
 
 ADD binwalk /root/binwalk
@@ -12,21 +11,20 @@ ADD ubi_reader /root/ubi_reader
 ADD firmadyne /root/firmadyne
 ADD firmware-analysis-toolkit /root/firmware-analysis-toolkit
 
-RUN sed -i 's/\:\/\/archive\.ubuntu\.com/\:\/\/mirrors\.tuna\.tsinghua\.edu\.cn/g' /etc/apt/sources.list
+#RUN sed -i 's/\:\/\/archive\.ubuntu\.com/\:\/\/mirrors\.tuna\.tsinghua\.edu\.cn/g' /etc/apt/sources.list
 RUN apt update \
     && apt -y dist-upgrade  \
     && apt -y install curl openssh-server build-essential iptables sudo locales vim tzdata \
-    && locale-gen zh_CN.UTF-8 
 	
 # FAT依赖项
 RUN sudo apt install -y python3-pip python3-pexpect busybox-static fakeroot git dmsetup kpartx netcat-openbsd nmap python3-psycopg2 snmp uml-utilities util-linux vlan qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils wget tar vim unzip
 # 更新pip
-RUN pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+RUN pip3 install --no-cache-dir --upgrade pip
 	
 # binwalk依赖项
 RUN apt install -y locales build-essential libqt4-opengl mtd-utils gzip bzip2 tar arj lhasa p7zip p7zip-full cabextract cramfsswap squashfs-tools zlib1g-dev liblzma-dev liblzo2-dev sleuthkit default-jdk lzop srecord cpio
 # binwalk及依赖包安装
-RUN pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple setuptools matplotlib capstone pycryptodome gnupg tk \
+RUN pip3 install --no-cache-dir setuptools matplotlib capstone pycryptodome gnupg tk \
 	# yaffshiv
 	&& cd /root/yaffshiv && python3 ./setup.py install && rm -rf /root/yaffshiv \
     # sasquatch
@@ -40,7 +38,7 @@ RUN pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple setu
     # binwalk
     && cd  /root/binwalk && python3 ./setup.py install
 	
-RUN sudo -H pip3 install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple python-magic jefferson \
+RUN sudo -H pip3 install --no-cache-dir python-magic jefferson \
     # root ssh
     && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && echo "root:root" | chpasswd \
     # iptables
