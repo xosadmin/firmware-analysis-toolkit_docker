@@ -11,10 +11,9 @@ ADD ubi_reader /root/ubi_reader
 ADD firmadyne /root/firmadyne
 ADD firmware-analysis-toolkit /root/firmware-analysis-toolkit
 
-#RUN sed -i 's/\:\/\/archive\.ubuntu\.com/\:\/\/mirrors\.tuna\.tsinghua\.edu\.cn/g' /etc/apt/sources.list
 RUN apt update \
     && apt -y dist-upgrade  \
-    && apt -y install curl openssh-server build-essential iptables sudo locales vim tzdata \
+    && apt -y install curl openssh-server build-essential iptables sudo locales vim tzdata 
 	
 # FAT依赖项
 RUN sudo apt install -y python3-pip python3-pexpect busybox-static fakeroot git dmsetup kpartx netcat-openbsd nmap python3-psycopg2 snmp uml-utilities util-linux vlan qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils wget tar vim unzip
