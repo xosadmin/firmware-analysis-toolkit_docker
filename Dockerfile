@@ -1,5 +1,4 @@
 FROM ubuntu:18.04
-#MAINTAINER zq 
 ENV DEBIAN_FRONTEND=noninteractive
 
 ADD binwalk /root/binwalk
